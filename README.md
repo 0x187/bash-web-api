@@ -1,22 +1,48 @@
-# Go Web
-Make Any Shell Command as a Web API with Golang
+# Gexec
 
-Clients invoke the web API by sending HTTP GET and POST requests. Clients can also send in additional flags and arguments to be passed into the command/script wrapped within the web API. Result of the command/script execution is sent back to the client as a plain text payload.
+Gexec is a powerful tool that allows you to convert any shell command into a web API using the Go programming language.
 
-## Running 
+Clients can interact with the web API by sending HTTP GET and POST requests. Additional flags and arguments can be included in the requests and will be passed into the wrapped command or script within the API. The result of the command or script execution is then returned to the client as plain text.
 
-As an example, assume you need to expose the "timedatectl" command as a web API. You can simply run the tool as follows:
+## Building
+To build Gexec, follow these simple steps:
 
 ```bash
-./GoWeb -p 8080 -b "timedatectl"
+go build -ldflags '-s -w' -o bin/gexec src/*
 ```
-Now, the clients can invoke the API by sending an HTTP request to http://0.0.0.0:8080
 
+## Usage
+To get started with Gexec, use the following command to see the available options:
 
-You can also use this tool to expose custom shell scripts and other command-line programs. For example, if you have a Python script foo.py which you wish to expose as a web API, all you have to do is:
 ```bash
-./GoWeb -p 8080 -b "python3 Mio.py"
+bin/gexec --help
 ```
-## Last words
 
-<img src="https://raw.githubusercontent.com/0x187/ClearText/main/68747470733a2f2f692e696d6775722e636f6d2f774d34553835682e6a7067.jpg">
+The output will display the available flags and their descriptions:
+
+```
+Usage of bin/gexec:
+  -b string
+        Path to Unix command/binary that has STDOUT (default "echo helloWorld")
+  -p int
+        HTTP port to listen on (default 8080)
+```
+
+## Running
+If no command or port is specified, Gexec will use the default command and port settings.
+
+As an example, let's assume you want to expose the "timedatectl" command as a web API. You can achieve this by running the following command:
+
+```bash
+./bin/gexec -p 6576 -b "timedatectl"
+```
+
+Now, clients can interact with the API by sending HTTP requests to http://0.0.0.0:6576.
+
+You can also utilize Gexec to expose custom shell scripts and other command-line programs. For instance, if you have a Python script called `foo.py` that you wish to expose as a web API, you can do so easily:
+
+```bash
+./bin/gexec -p 6576 -b "python3 foo.py"
+```
+
+Feel free to explore the capabilities of Gexec and adapt it to your specific needs. It provides a convenient and efficient way to expose command-line functionality as a web service.
